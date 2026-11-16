@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>얼집가자 초대</title>
+<meta property="og:title" content="얼집가자 초대">
+<meta property="og:description" content="눌러서 가족 소식을 같이 받아요">
+<meta property="og:type" content="website">
+<style>
+  /* 얼집가자 초대 안내(2026-11-17 초대 3단계). 원본은 앱 저장소 docs/web/earlzip-invite/index.html, Pesumelga.github.io/earlzip/invite/에 올린다.
+     코드는 주소의 ?c= 에서 읽어 화면에만 보이고 어디로도 보내지 않는다. */
+  :root { --base: #FFFBF0; --ink: #3A2A1E; --sub: #7A6553; --butter: #FFE45C; --apricot: #FFA98A; --cream: #FFEFD9; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--base); color: var(--ink); }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; padding: max(24px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom)); }
+  main { max-width: 420px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+  .card { background: #fff; border: 2.5px solid var(--ink); border-bottom-width: 7px; border-radius: 22px; padding: 18px 16px; display: flex; flex-direction: column; gap: 10px; }
+  .card.apricot { background: var(--apricot); }
+  h1 { font-size: 26px; line-height: 1.25; margin: 4px 0 0; }
+  p { margin: 0; font-size: 16px; line-height: 1.55; }
+  .sub { color: var(--sub); font-size: 15px; }
+  .code { display: flex; gap: 6px; justify-content: center; margin: 4px 0; }
+  .code span { width: 44px; height: 54px; border: 2.5px solid var(--ink); border-bottom-width: 5px; border-radius: 12px; background: #fff; display: grid; place-items: center; font-size: 26px; font-weight: 800; }
+  .btn { display: block; text-align: center; text-decoration: none; color: var(--ink); background: var(--butter); border: 2.5px solid var(--ink); border-bottom-width: 6px; border-radius: 16px; padding: 15px; font-size: 18px; font-weight: 800; }
+  .btn:active { transform: translateY(2px); border-bottom-width: 4px; }
+  ol { margin: 0; padding-left: 20px; font-size: 15px; line-height: 1.6; color: var(--sub); }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <h1>얼집가자 초대</h1>
+  <section class="card apricot" id="ok" hidden>
+    <p><b>가족 소식을 같이 받아요</b></p>
+    <p>30분 동안, 받은 한 사람만 열 수 있어요</p>
+    <div class="code" id="code" aria-label="초대 코드"></div>
+  </section>
+  <a class="btn" id="open" href="#" hidden>얼집가자에서 열기</a>
+  <section class="card" id="how" hidden>
+    <p><b>앱이 열리지 않으면</b></p>
+    <ol>
+      <li>얼집가자 앱을 열어요</li>
+      <li>[초대 코드 넣기]를 누르고 위 코드를 넣어요</li>
+    </ol>
+  </section>
+  <section class="card" id="bad" hidden>
+    <p><b>초대 코드를 찾지 못했어요</b></p>
+    <p class="sub">받은 카카오톡 메시지의 링크를 다시 눌러 주세요</p>
+  </section>
+</main>
+<script>
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var raw = q.get('c') || (location.hash || '').replace(/^#c?=?/, '');
+    var code = String(raw || '').toUpperCase().replace(/[^A-HJKMNP-Z2-9]/g, '').slice(0, 6);
+    if (code.length !== 6) { document.getElementById('bad').hidden = false; return; }
+    var box = document.getElementById('code');
+    for (var i = 0; i < code.length; i++) { var s = document.createElement('span'); s.textContent = code[i]; box.appendChild(s); }
+    box.setAttribute('aria-label', '초대 코드 ' + code.split('').join(' '));
+    var a = document.getElementById('open');
+    a.href = 'earlzip://invite?code=' + code;
+    a.hidden = false;
+    document.getElementById('ok').hidden = false;
+    document.getElementById('how').hidden = false;
+  })();
+</script>
+</body>
+</html>
